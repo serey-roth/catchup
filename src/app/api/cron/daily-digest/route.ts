@@ -239,7 +239,7 @@ export async function GET() {
                                     await logDelivery({
                                         subscriberId,
                                         sentDate: new Date(),
-                                        articlesSent: subscriber.articles.map((a) => a.id),
+                                        articleIds: subscriber.articles.map((a) => a.id),
                                         success: true,
                                     })
 
@@ -250,7 +250,7 @@ export async function GET() {
                                     await logDelivery({
                                         subscriberId,
                                         sentDate: new Date(),
-                                        articlesSent: [],
+                                        articleIds: [],
                                         success: false,
                                     }).catch((logError) =>
                                         console.error(

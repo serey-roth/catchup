@@ -43,8 +43,13 @@ export const DeliveryLogSchema = z.object({
     id: z.string(),
     subscriberId: z.string(),
     sentDate: z.date(),
-    articlesSent: z.array(z.string()),
     success: z.boolean(),
+})
+
+export const DeliveryLogArticleSchema = z.object({
+    deliveryLogId: z.string(),
+    articleId: z.string(),
+    createdAt: z.date(),
 })
 
 export const SearchArticleResultSchema = z.object({
@@ -75,12 +80,17 @@ export type Topic = z.infer<typeof TopicSchema>
 export type SubscriberTopic = z.infer<typeof SubscriberTopicSchema>
 export type Article = z.infer<typeof ArticleSchema>
 export type DeliveryLog = z.infer<typeof DeliveryLogSchema>
+export type DeliveryLogArticle = z.infer<typeof DeliveryLogArticleSchema>
 
 export type SearchArticleResult = z.infer<typeof SearchArticleResultSchema>
 export type SearchArticleResponse = z.infer<typeof SearchArticleResponseSchema>
 export type ProcessedSearchArticle = z.infer<
     typeof ProcessedSearchArticleSchema
 >
+
+export const CreateDeliveryLogArticleSchema = DeliveryLogArticleSchema.omit({
+    createdAt: true,
+})
 
 export const CreateSubscriberSchema = SubscriberSchema.omit({
     id: true,
@@ -101,4 +111,6 @@ export const CreateArticleSchema = ArticleSchema.omit({
 
 export const CreateDeliveryLogSchema = DeliveryLogSchema.omit({
     id: true,
+}).extend({
+    articleIds: z.array(z.string().min(1)),
 })

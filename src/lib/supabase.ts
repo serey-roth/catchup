@@ -402,7 +402,8 @@ export async function deleteArticle(id: string): Promise<void> {
 export async function logDelivery(
     data: z.infer<typeof CreateDeliveryLogSchema>
 ): Promise<DeliveryLog> {
-    const dbData = convertToDb(data)
+    const { articleIds, ...deliveryData } = data
+    const dbData = convertToDb(deliveryData)
 
     const { data: result, error } = await supabase
         .from('delivery_logs')
@@ -412,6 +413,22 @@ export async function logDelivery(
 
     if (error) {
         throw new Error(`Failed to create delivery log: ${error.message}`)
+    }
+
+    // Create the many-to-many relationships
+    if (articleIds && articleIds.length > 0) {
+        const deliveryLogArticles = articleIds.map(articleId => ({
+            delivery_log_id: result.id,
+            article_id: articleId,
+        }))
+
+        const { error: relationError } = await supabase
+            .from('delivery_log_articles')
+            .insert(deliveryLogArticles)
+
+        if (relationError) {
+            throw new Error(`Failed to create delivery log articles: ${relationError.message}`)
+        }
     }
 
     return convertFromDb(result) as DeliveryLog
