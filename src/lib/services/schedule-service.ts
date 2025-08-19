@@ -21,7 +21,7 @@ export class ScheduleService implements IScheduleService {
             return true
         }
 
-        const timeSinceLastSent = now.getTime() - lastSent.getTime()
+        const timeSinceLastSent = now.getTime() - new Date(lastSent).getTime()
         const hoursSinceLastSent = timeSinceLastSent / (1000 * 60 * 60)
 
         const currentMonth = now.getMonth() + 1
@@ -59,7 +59,7 @@ export class ScheduleService implements IScheduleService {
         }
 
         const defaultTime = new Date()
-        defaultTime.setUTCHours(16, 0, 0, 0)
+        defaultTime.setUTCHours(17, 0, 0, 0)
         return defaultTime
     }
 
