@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+
+/* Smooth scrolling for the entire page */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Smooth transitions for interactive elements */
+* {
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Optimize performance for Framer Motion */
+.motion-safe\:animate-fade-in-up,
+.motion-safe\:animate-slide-in-left,
+.motion-safe\:animate-highlight,
+.motion-safe\:animate-gentle-fade {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
