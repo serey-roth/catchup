@@ -59,7 +59,7 @@ export class ScheduleService implements IScheduleService {
         }
 
         const defaultTime = new Date()
-        defaultTime.setHours(23, 50, 0, 0)
+        defaultTime.setUTCHours(16, 0, 0, 0)
         return defaultTime
     }
 
